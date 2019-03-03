@@ -32,10 +32,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,14 +79,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // rtbLog
-            // 
-            this.rtbLog.Location = new System.Drawing.Point(1020, 124);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(305, 462);
-            this.rtbLog.TabIndex = 4;
-            this.rtbLog.Text = "";
-            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(1112, 41);
@@ -113,6 +105,14 @@
             this.label2.Size = new System.Drawing.Size(89, 16);
             this.label2.TabIndex = 7;
             this.label2.Text = "% 發送通知";
+            // 
+            // rtbLog
+            // 
+            this.rtbLog.Location = new System.Drawing.Point(1020, 124);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(305, 462);
+            this.rtbLog.TabIndex = 4;
+            this.rtbLog.Text = "";
             // 
             // Form1
             // 
@@ -141,10 +141,10 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RichTextBox rtbLog;
     }
 }
 

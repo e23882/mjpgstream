@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MjpegProcessor;
+using System.Threading;
 
 namespace WindowsFormsApplication2
 {
@@ -28,6 +29,7 @@ namespace WindowsFormsApplication2
         //Label lb7 = new Label();
         bool isMonitor = false;
         MjpegDecoder mjp;
+        bool TaskRun = false;
         #endregion
 
         #region Property
@@ -39,10 +41,17 @@ namespace WindowsFormsApplication2
             InitializeComponent();
             mjp = new MjpegDecoder();
             mjp.FrameReady += mjp_ready;
+            Form.CheckForIllegalCrossThreadCalls = false;
+            runCheckImgTask();
+
         }
+        Bitmap curBitmap;
+        Bitmap beforeBitmap;
         void mjp_ready(object sender, FrameReadyEventArgs e)
         {
+            beforeBitmap = (Bitmap)pictureBox1.Image;
             pictureBox1.Image = e.Bitmap;
+            curBitmap = e.Bitmap;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -118,24 +127,54 @@ namespace WindowsFormsApplication2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if ((sender as Button).Text.Equals("monitor"))
+            if (string.IsNullOrEmpty(textBox1.Text))
+                MessageBox.Show("請輸入變動程度");
+            else
             {
-                lb.BackColor = lb1.BackColor = lb2.BackColor = lb3.BackColor = Color.Green;
-                isMonitor = true;
-                button2.Text = "Cancel";
-                button1.Enabled = false;
-                ReadStream.Enabled = false;
-                this.log("開始監控");
-            }
-            else if ((sender as Button).Text.Equals("Cancel"))
-            {
-                lb.BackColor = lb1.BackColor = lb2.BackColor = lb3.BackColor = Color.Red;
-                isMonitor = false;
-                button2.Text = "monitor";
-                ReadStream.Enabled = true;
+                if ((sender as Button).Text.Equals("monitor"))
+                {
+                    lb.BackColor = lb1.BackColor = lb2.BackColor = lb3.BackColor = Color.Green;
+                    isMonitor = true;
+                    button2.Text = "Cancel";
+                    button1.Enabled = false;
+                    ReadStream.Enabled = false;
+                    this.log("開始監控");
+                    TaskRun = true;
+                }
+                else if ((sender as Button).Text.Equals("Cancel"))
+                {
+                    lb.BackColor = lb1.BackColor = lb2.BackColor = lb3.BackColor = Color.Red;
+                    isMonitor = false;
+                    button2.Text = "monitor";
+                    ReadStream.Enabled = true;
+                    this.log("停止監控");
+                    TaskRun = false;
+
+                }
             }
         }
+        public void runCheckImgTask()
+        {
+            Task mainTask = new Task(() =>
+            {
+                Task th = new Task(() =>
+                {
+                    Thread.CurrentThread.Name = "check Img";
+                    while (true)
+                    {
+                        if (TaskRun)
+                        {
+                            if (!ImageEquals(beforeBitmap, curBitmap))
+                                log("diff");
+                        }
+                    }
+                });
 
+                th.Start();
+            });
+
+            mainTask.Start();
+        }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             if (isMonitor)
@@ -161,8 +200,26 @@ namespace WindowsFormsApplication2
         }
         public void log(string content)
         {
-            rtbLog.AppendText(String.Format("{0} : {1}", content, DateTime.Now.TimeOfDay));
+            rtbLog.AppendText(String.Format("{1} : {0}\r", content, DateTime.Now.ToString("MM/dd HH:mm:ss")));
         }
+        private bool ImageEquals(Bitmap bmpOne, Bitmap bmpTwo)
+        {
+            int totalCount = 0;
+            int count = 0;
+            for (int i = 0; i < bmpOne.Width; i++)
+            {
+                for (int j = 0; j < bmpOne.Height; j++)
+                {
+                    totalCount ++;
+                    if (bmpOne.GetPixel(i, j) != bmpTwo.GetPixel(i, j))
+                        count++;
+                }
+            }
+            if ((totalCount * int.Parse(textBox1.Text)/100) < count)
+                return false;
+            return true;
+        }
+
         #endregion
     }
 }
