@@ -8,3 +8,13 @@ c:\users\user\documents\visual studio 2015\Projects\WindowsFormsApplication2\Win
 c:\users\user\documents\visual studio 2015\Projects\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.csproj.GenerateResource.Cache
 c:\users\user\documents\visual studio 2015\Projects\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
 c:\users\user\documents\visual studio 2015\Projects\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.pdb
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Form1.resources
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.csproj.GenerateResource.cache
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.csproj.CoreCompileInputs.cache
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.csproj.CopyComplete
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
+D:\Backup\LeoYang\Desktop\mjpgstream-master\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb

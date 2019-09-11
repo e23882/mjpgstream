@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ReadStream = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.cbTakePicture = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,11 +116,23 @@
             this.rtbLog.TabIndex = 4;
             this.rtbLog.Text = "";
             // 
+            // cbTakePicture
+            // 
+            this.cbTakePicture.AutoSize = true;
+            this.cbTakePicture.Location = new System.Drawing.Point(1182, 16);
+            this.cbTakePicture.Name = "cbTakePicture";
+            this.cbTakePicture.Size = new System.Drawing.Size(96, 16);
+            this.cbTakePicture.TabIndex = 9;
+            this.cbTakePicture.Text = "縮時攝影模式";
+            this.cbTakePicture.UseVisualStyleBackColor = true;
+            this.cbTakePicture.CheckedChanged += new System.EventHandler(this.cbTakePicture_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1337, 598);
+            this.Controls.Add(this.cbTakePicture);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
@@ -127,8 +141,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.ReadStream);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TackPicture";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -145,6 +162,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox rtbLog;
+        private System.Windows.Forms.CheckBox cbTakePicture;
     }
 }
 
