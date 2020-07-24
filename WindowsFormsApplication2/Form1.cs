@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MjpegProcessor;
 using System.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace WindowsFormsApplication2
 {
@@ -30,6 +33,11 @@ namespace WindowsFormsApplication2
         bool isMonitor = false;
         MjpegDecoder mjp;
         bool TaskRun = false;
+        bool FlagTakePicture = false;
+        bool FlagCheckDiff = false;
+        Bitmap curBitmap;
+        Bitmap beforeBitmap;
+        Thread th;
         #endregion
 
         #region Property
@@ -39,14 +47,15 @@ namespace WindowsFormsApplication2
         public Form1()
         {
             InitializeComponent();
+            Closing += new CancelEventHandler(Form1_Closing);
             mjp = new MjpegDecoder();
             mjp.FrameReady += mjp_ready;
             Form.CheckForIllegalCrossThreadCalls = false;
             runCheckImgTask();
-
+            th = new Thread(StartTakePicture);
+            th.Start();
         }
-        Bitmap curBitmap;
-        Bitmap beforeBitmap;
+       
         void mjp_ready(object sender, FrameReadyEventArgs e)
         {
             beforeBitmap = (Bitmap)pictureBox1.Image;
@@ -54,9 +63,41 @@ namespace WindowsFormsApplication2
             curBitmap = e.Bitmap;
         }
 
+        private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            FlagTakePicture = false;
+            FlagCheckDiff = false;
+            this.Close();
+            Environment.Exit(Environment.ExitCode);
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            mjp.ParseStream(new Uri("http://rr114.ddns.net:8080/?action=stream"));
+            mjp.ParseStream(new Uri("http://192.168.1.209:8080/?action=stream"));
+            pictureBox1.Visible = !cbTakePicture.Checked;
+            FlagTakePicture = true;
+            FlagCheckDiff = true;
+        }
+
+        public void StartTakePicture()
+        {
+            while (FlagTakePicture)
+            {
+                if (beforeBitmap != null)
+                {
+                    var dt = ConvertToBitmap(DateTime.Now.ToString("yyyyMMddHHmmss")+".jpg");
+                    if (dt != null)
+                        Thread.Sleep(5000);
+                }
+            }
+        }
+
+        public Bitmap ConvertToBitmap(string fileName)
+        {
+         
+            Bitmap bitmap = new Bitmap(beforeBitmap);
+            bitmap.Save(@"Image\"+fileName);
+            return bitmap;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -112,10 +153,12 @@ namespace WindowsFormsApplication2
             px = e.X;
             py = e.Y;
         }
+
         private void MouseUp(object sender, MouseEventArgs e)
         {
             isDrag = false;
         }
+
         private void MouseMove(object sender, MouseEventArgs e)
         {
             if (isDrag)
@@ -153,6 +196,7 @@ namespace WindowsFormsApplication2
                 }
             }
         }
+
         public void runCheckImgTask()
         {
             Task mainTask = new Task(() =>
@@ -160,7 +204,7 @@ namespace WindowsFormsApplication2
                 Task th = new Task(() =>
                 {
                     Thread.CurrentThread.Name = "check Img";
-                    while (true)
+                    while (FlagCheckDiff)
                     {
                         if (TaskRun)
                         {
@@ -198,10 +242,12 @@ namespace WindowsFormsApplication2
                 e.Graphics.DrawLine(blackPen, new Point(lb2.Left, lb2.Top + 8), new Point(lb3.Left, lb3.Top + 8));
             }
         }
+
         public void log(string content)
         {
             rtbLog.AppendText(String.Format("{1} : {0}\r", content, DateTime.Now.ToString("MM/dd HH:mm:ss")));
         }
+
         private bool ImageEquals(Bitmap bmpOne, Bitmap bmpTwo)
         {
             int totalCount = 0;
@@ -220,6 +266,10 @@ namespace WindowsFormsApplication2
             return true;
         }
 
+        private void cbTakePicture_CheckedChanged(object sender, EventArgs e)
+        {
+            pictureBox1.Visible = !cbTakePicture.Checked;
+        }
         #endregion
     }
 }
